@@ -41,6 +41,13 @@ App = {
         App.todoList = await App.contracts.TodoList.deployed()
     },
 
+    toggleCompleted: async (e) => {
+        App.setLoading(true)
+        const taskId = e.target.name
+        await App.todoList.toggleCompleted(taskId)
+        window.location.reload()
+      },    
+
     renderTasks: async() => {
         // Load the total task count from the blockchain
         const taskCount = await App.todoList.taskCount()
