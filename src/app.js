@@ -35,6 +35,7 @@ App = {
         // Create a Js version of the smart contract
         const todoList = await $.getJSON('TodoList.json')
         App.contracts.TodoList = TruffleContract(todoList)
+        App.contracts.TodoList.defaults({from: App.account[0]})
         App.contracts.TodoList.setProvider(App.web3Provider)
         
         // Hydrate the smart contract with value from blockchain
@@ -105,7 +106,14 @@ App = {
           loader.hide()
           content.show()
         }
-      }
+      },
+
+      createTask: async () => {
+        App.setLoading(true)
+        const content = $('#newTask').val()
+        await App.todoList.createTask(content)
+        window.location.reload()
+      },
     }
                   
     $(()=> {
